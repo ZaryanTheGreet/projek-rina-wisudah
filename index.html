@@ -1,0 +1,1226 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wisuda S1 — Rina</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500;1,9..144,600&family=Inter:wght@400;500;600&family=Caveat:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<style>
+  :root{
+    --ink:#11151F;
+    --navy:#1B2436;
+    --navy-light:#232E44;
+    --parchment:#F3ECD9;
+    --parchment-dim:#DDD3B4;
+    --gold:#C9A227;
+    --gold-soft:#E4C767;
+    --blush:#D98B90;
+    --text-muted:rgba(243,236,217,0.62);
+    --line:rgba(201,162,39,0.22);
+    --radius:2px;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important;}
+  }
+
+  body{
+    margin:0;
+    background:var(--ink);
+    color:var(--parchment);
+    font-family:'Inter', sans-serif;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+
+  ::selection{background:var(--gold); color:var(--ink);}
+
+  a{color:inherit;}
+
+  :focus-visible{
+    outline:2px solid var(--gold-soft);
+    outline-offset:3px;
+  }
+
+  .wrap{
+    max-width:1040px;
+    margin:0 auto;
+    padding:0 28px;
+  }
+
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    color:var(--gold-soft);
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .eyebrow::before{
+    content:"";
+    width:26px; height:1px;
+    background:var(--gold);
+  }
+
+  h1,h2,h3{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    margin:0;
+  }
+
+  /* ---------- floating gold dust ambience ---------- */
+  #dust{
+    position:fixed; inset:0;
+    pointer-events:none;
+    z-index:0;
+  }
+  .mote{
+    position:absolute;
+    width:3px; height:3px;
+    border-radius:50%;
+    background:var(--gold-soft);
+    opacity:0.35;
+    animation:drift linear infinite;
+  }
+  @keyframes drift{
+    from{transform:translateY(110vh) translateX(0);}
+    to{transform:translateY(-10vh) translateX(30px);}
+  }
+
+  /* ---------- top nav dot ---------- */
+  .progress-line{
+    position:fixed; top:0; left:0; height:2px;
+    background:linear-gradient(90deg,var(--gold),var(--blush));
+    z-index:50;
+    width:0%;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    min-height:100svh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    position:relative;
+    padding:120px 24px 80px;
+  }
+  .hero .eyebrow{margin-bottom:26px;}
+  .hero h1{
+    font-size:clamp(48px, 11vw, 118px);
+    line-height:0.95;
+    font-style:italic;
+    font-weight:500;
+    letter-spacing:-0.01em;
+  }
+  .hero h1 span{
+    display:block;
+    font-style:normal;
+    font-weight:600;
+    color:var(--gold-soft);
+  }
+  .hero p{
+    margin-top:28px;
+    max-width:440px;
+    color:var(--text-muted);
+    font-size:16px;
+    line-height:1.7;
+  }
+  .hero .date{
+    margin-top:34px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:13px;
+    letter-spacing:0.08em;
+    color:var(--gold);
+    border:1px solid var(--line);
+    padding:9px 18px;
+    border-radius:100px;
+  }
+  .foto-pemilik {
+      width:100px;
+      height:100px; auto;
+  }
+  .scroll-cue{
+    position:absolute;
+    bottom:36px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:8px;
+    color:var(--text-muted);
+    font-size:11px;
+    font-family:'IBM Plex Mono', monospace;
+    letter-spacing:0.1em;
+    animation:bob 2.4s ease-in-out infinite;
+  }
+  @keyframes bob{ 0%,100%{transform:translateY(0);} 50%{transform:translateY(8px);} }
+
+  /* ---------- SECTION shells ---------- */
+  section{
+    position:relative;
+    z-index:1;
+    padding:120px 0;
+  }
+  .section-head{
+    margin-bottom:64px;
+    max-width:560px;
+  }
+  .section-head h2{
+    font-size:clamp(32px,5vw,46px);
+    margin-top:18px;
+    line-height:1.15;
+  }
+  .section-head p{
+    margin-top:16px;
+    color:var(--text-muted);
+    font-size:15.5px;
+    line-height:1.7;
+  }
+
+  .reveal{
+    opacity:0;
+    transform:translateY(28px);
+    transition:opacity 0.8s ease, transform 0.8s ease;
+  }
+  .reveal.is-visible{
+    opacity:1;
+    transform:translateY(0);
+  }
+
+  /* ---------- TIMELINE (zigzag) ---------- */
+  .timeline{
+    position:relative;
+    padding:6px 0;
+  }
+  .timeline::before{
+    content:"";
+    position:absolute;
+    left:50%;
+    top:0; bottom:0;
+    width:1px;
+    background:linear-gradient(var(--gold), rgba(201,162,39,0.05) 96%);
+    transform:translateX(-50%);
+  }
+  .t-item{
+    position:relative;
+    width:46%;
+    margin-bottom:76px;
+  }
+  .t-item:last-child{margin-bottom:0;}
+  .t-item:nth-child(odd){ margin-right:auto; }
+  .t-item:nth-child(even){ margin-left:auto; }
+  .t-item .t-dot{
+    position:absolute;
+    top:8px;
+    width:11px; height:11px;
+    border-radius:50%;
+    background:var(--ink);
+    border:2px solid var(--gold);
+    z-index:2;
+  }
+  .t-item:nth-child(odd) .t-dot{ right:-49px; }
+  .t-item:nth-child(even) .t-dot{ left:-49px; }
+  .t-item:nth-child(odd) .t-dot::after,
+  .t-item:nth-child(even) .t-dot::after{
+    content:"";
+    position:absolute;
+    top:4px;
+    width:32px; height:1px;
+    background:var(--line);
+  }
+  .t-item:nth-child(odd) .t-dot::after{ right:11px; }
+  .t-item:nth-child(even) .t-dot::after{ left:11px; }
+  .t-year{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:13px;
+    color:var(--gold);
+    display:block;
+    margin-bottom:10px;
+  }
+  .t-card{
+    background:var(--navy);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:26px 28px;
+  }
+  .t-card h3{
+    font-size:21px;
+    font-style:italic;
+    font-weight:500;
+    color:var(--parchment);
+  }
+  .t-card p{
+    margin-top:10px;
+    color:var(--text-muted);
+    font-size:14.5px;
+    line-height:1.7;
+  }
+  .t-tag{
+    display:inline-block;
+    margin-top:16px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.06em;
+    color:var(--blush);
+  }
+  @media (max-width:760px){
+    .wrap{ padding:0 16px; }
+    .t-card{ padding:18px 16px; }
+    .t-card h3{ font-size:17px; }
+    .t-card p{ font-size:13px; }
+    .t-item{ width:44%; margin-bottom:56px; }
+    .t-item:nth-child(odd) .t-dot{ right:-20px; }
+    .t-item:nth-child(even) .t-dot{ left:-20px; }
+    .t-item .t-dot::after{ width:12px; }
+    .t-item:nth-child(odd) .t-dot::after{ right:11px; }
+    .t-item:nth-child(even) .t-dot::after{ left:11px; }
+  }
+  @media (max-width:420px){
+    .t-item{ width:47%; }
+  }
+
+  /* ---------- GALLERY ---------- */
+  .gallery-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:18px;
+  }
+  @media (max-width:720px){ .gallery-grid{grid-template-columns:repeat(2,1fr);} }
+  .klarifikasi {
+      margin-top:10px;
+      
+  }
+  .flip-card{
+    perspective:1200px;
+    aspect-ratio:3/4;
+    cursor:pointer;
+  }
+  .flip-card-inner{
+    position:relative;
+    width:100%; height:100%;
+    transition:transform 0.7s cubic-bezier(.2,.8,.2,1);
+    transform-style:preserve-3d;
+  }
+  .flip-card.flipped .flip-card-inner{transform:rotateY(180deg);}
+  .flip-face{
+    position:absolute; inset:0;
+    -webkit-backface-visibility:hidden;
+    backface-visibility:hidden;
+    border-radius:var(--radius);
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:16px;
+    border:1px solid var(--line);
+  }
+  .flip-front{
+    background:
+      radial-gradient(circle at 30% 20%, rgba(201,162,39,0.16), transparent 55%),
+      var(--navy-light);
+  }
+  .flip-front i{font-size:26px; color:var(--gold-soft); margin-bottom:12px;}
+  .flip-front span{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11.5px;
+    color:var(--text-muted);
+    letter-spacing:0.04em;
+  }
+  .flip-front .hint{
+    position:absolute; bottom:12px;
+    font-size:10px; color:var(--gold);
+    letter-spacing:0.08em;
+    opacity:0.7;
+    text-shadow:0 1px 4px rgba(0,0,0,0.6);
+  }
+  .flip-back{
+    background:var(--gold-soft);
+    color:var(--ink);
+    transform:rotateY(180deg);
+    font-family:'Caveat', cursive;
+    font-size:20px;
+    line-height:1.4;
+  }
+
+  /* ---------- GUESTBOOK ---------- */
+  .board{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(220px,1fr));
+    gap:22px;
+    margin-bottom:48px;
+  }
+  .note{
+    background:var(--parchment);
+    color:#2A2313;
+    padding:20px 20px 24px;
+    border-radius:1px;
+    box-shadow:0 14px 28px rgba(0,0,0,0.28);
+    font-family:'Caveat', cursive;
+    font-size:19px;
+    line-height:1.35;
+    position:relative;
+    transform:rotate(var(--r,-1.4deg));
+  }
+  .note::before{
+    content:"";
+    position:absolute;
+    top:-10px; left:50%;
+    transform:translateX(-50%) rotate(-3deg);
+    width:52px; height:18px;
+    background:rgba(217,139,144,0.55);
+    backdrop-filter:blur(1px);
+  }
+  .note .who{
+    display:block;
+    margin-top:12px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    color:#6b5c22;
+    letter-spacing:0.04em;
+  }
+
+  .note-form{
+    background:var(--navy);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:28px;
+    display:grid;
+    gap:14px;
+  }
+  .note-form .row{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
+  @media(max-width:560px){ .note-form .row{grid-template-columns:1fr;} }
+  .note-form input, .note-form textarea{
+    background:var(--ink);
+    border:1px solid var(--line);
+    color:var(--parchment);
+    font-family:'Inter', sans-serif;
+    font-size:14px;
+    padding:12px 14px;
+    border-radius:var(--radius);
+    resize:vertical;
+  }
+  .note-form textarea{min-height:90px;}
+  .note-form input::placeholder, .note-form textarea::placeholder{color:var(--text-muted);}
+  .btn{
+    justify-self:start;
+    background:var(--gold);
+    color:var(--ink);
+    border:none;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12.5px;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    padding:13px 24px;
+    border-radius:100px;
+    cursor:pointer;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    transition:transform 0.25s ease, background 0.25s ease;
+  }
+  .btn:hover{background:var(--gold-soft); transform:translateY(-2px);}
+  .btn.ghost{
+    background:transparent;
+    border:1px solid var(--gold);
+    color:var(--gold-soft);
+  }
+  .btn.ghost:hover{background:rgba(201,162,39,0.1);}
+  .btn:disabled{ opacity:0.35; cursor:not-allowed; transform:none !important; }
+
+  .board-controls{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:18px;
+    margin:-10px 0 40px;
+  }
+  .board-controls .btn{ padding:11px 20px; font-size:11.5px; }
+  .page-indicator{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    color:var(--text-muted);
+    letter-spacing:0.06em;
+    min-width:44px;
+    text-align:center;
+  }
+
+  /* ---------- CLIMAX ---------- */
+  .climax{
+    text-align:center;
+    padding-top:100px;
+    padding-bottom:140px;
+    overflow:hidden;
+  }
+  .cap-stage{
+    position:relative;
+    height:220px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin:36px 0 20px;
+  }
+  .cap{
+    position:relative;
+    width:120px;
+    animation:hover-cap 4s ease-in-out infinite;
+  }
+  @keyframes hover-cap{ 0%,100%{transform:translateY(0) rotate(-3deg);} 50%{transform:translateY(-14px) rotate(3deg);} }
+  .cap-top{
+    width:120px; height:120px;
+    background:var(--ink);
+    border:2px solid var(--gold);
+    transform:rotate(45deg);
+    margin:0 auto;
+  }
+  .cap-base{
+    width:46px; height:26px;
+    background:var(--ink);
+    border:2px solid var(--gold);
+    border-top:none;
+    margin:-6px auto 0;
+    border-radius:0 0 6px 6px;
+  }
+  .tassel{
+    position:absolute;
+    top: 8px; left:50%;
+    width:2px; height:70px;
+    background:var(--gold);
+    transform-origin:top center;
+    z-index: 999;
+    animation:swing 3.2s ease-in-out infinite;
+  }
+  .tassel::after{
+    content:"";
+    position:absolute;
+    bottom:-6px; left:-4px;
+    width:10px; height:10px;
+    border-radius:50%;
+    background:var(--gold-soft);
+  }
+  @keyframes swing{ 0%,100%{transform:rotate(-8deg);} 50%{transform:rotate(8deg);} }
+
+  .climax h2{
+    font-size:clamp(30px,5vw,44px);
+    font-style:italic;
+    font-weight:500;
+  }
+  .climax .quote{
+    max-width:520px;
+    margin:22px auto 0;
+    color:var(--text-muted);
+    font-size:16px;
+    line-height:1.8;
+  }
+  .share-row{
+    margin-top:38px;
+    display:flex;
+    gap:14px;
+    justify-content:center;
+    flex-wrap:wrap;
+  }
+
+  #confetti-layer{
+    position:fixed; inset:0;
+    pointer-events:none;
+    z-index:60;
+    overflow:hidden;
+  }
+  .confetti-piece{
+    position:absolute;
+    top:-20px;
+    width:8px; height:14px;
+    opacity:0.9;
+    animation:fall linear forwards;
+  }
+  @keyframes fall{
+    to{ transform:translateY(108vh) rotate(540deg); opacity:0.2;}
+  }
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    padding:70px 0 60px;
+    text-align:center;
+    border-top:1px solid var(--line);
+  }
+  footer p{
+    color:var(--text-muted);
+    font-size:13.5px;
+    font-family:'IBM Plex Mono', monospace;
+  }
+  footer .heart{color:var(--blush);}
+
+  /* toast */
+  #toast{
+    position:fixed;
+    bottom:28px; left:50%;
+    transform:translateX(-50%) translateY(20px);
+    background:var(--gold-soft);
+    color:var(--ink);
+    padding:12px 22px;
+    border-radius:100px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12.5px;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.3s ease, transform 0.3s ease;
+    z-index:80;
+  }
+  #toast.show{
+    opacity:1;
+    transform:translateX(-50%) translateY(0);
+  }
+
+  /* sound toggle */
+  #sound-toggle{
+    position:fixed;
+    top:22px; right:22px;
+    z-index:70;
+    width:38px; height:38px;
+    border-radius:50%;
+    border:1px solid var(--line);
+    background:rgba(27,36,54,0.7);
+    backdrop-filter:blur(6px);
+    color:var(--gold-soft);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+  }
+
+  /* ---------- INTRO GATE (gift box) ---------- */
+  body.locked{ overflow:hidden; height:100%; }
+  #intro-gate{
+    position:fixed; inset:0;
+    z-index:100;
+    background:radial-gradient(circle at 50% 38%, var(--navy) 0%, var(--ink) 72%);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:opacity 0.6s ease, visibility 0.6s ease;
+  }
+  #intro-gate.hide{
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+  }
+  .intro-inner{ text-align:center; padding:24px; }
+  .intro-inner .eyebrow{ justify-content:center; margin-bottom:38px; }
+  .intro-hint{
+    margin-top:32px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    letter-spacing:0.06em;
+    color:var(--text-muted);
+    animation:bob 2.4s ease-in-out infinite;
+  }
+  .gift-box{
+    position:relative;
+    width:170px; height:150px;
+    margin:0 auto;
+    cursor:pointer;
+  }
+  .gift-box:hover .gift-lid{ transform:translateY(-4px); }
+  .gift-body{
+    position:absolute;
+    bottom:0; left:5px;
+    width:160px; height:112px;
+    background:var(--navy-light);
+    border:2px solid var(--gold);
+    border-radius:3px;
+    overflow:hidden;
+    transition:transform 0.5s cubic-bezier(.3,.9,.3,1), opacity 0.5s ease;
+  }
+  .gift-body::before{
+    content:"";
+    position:absolute; top:0; bottom:0; left:50%;
+    width:22px; margin-left:-11px;
+    background:var(--blush);
+  }
+  .gift-lid{
+    position:absolute;
+    top:24px; left:0;
+    width:170px; height:30px;
+    background:var(--gold);
+    border-radius:3px;
+    transition:transform 0.6s cubic-bezier(.3,.9,.3,1), opacity 0.5s ease;
+  }
+  .gift-lid::before{
+    content:"";
+    position:absolute; top:0; bottom:0; left:50%;
+    width:22px; margin-left:-11px;
+    background:var(--blush);
+  }
+  .gift-bow{
+    position:absolute;
+    top:-6px; left:50%;
+    transform:translateX(-50%);
+    width:54px; height:30px;
+    transition:transform 0.5s ease, opacity 0.5s ease;
+  }
+  .gift-bow span{
+    position:absolute; top:0;
+    width:26px; height:22px;
+    background:var(--blush);
+  }
+  .gift-bow span:first-child{ left:0; transform:rotate(-18deg); border-radius:50% 50% 0 50%; }
+  .gift-bow span:last-child{ right:0; transform:rotate(18deg); border-radius:50% 50% 50% 0; }
+  .gift-bow i{
+    position:absolute; top:6px; left:50%;
+    transform:translateX(-50%);
+    width:12px; height:12px;
+    background:var(--gold-soft);
+    border-radius:2px;
+    font-style:normal;
+  }
+  .gift-box.opened .gift-lid{
+    transform:translateY(-74px) rotate(-22deg);
+    opacity:0;
+  }
+  .gift-box.opened .gift-bow{
+    transform:translate(-50%, -94px) rotate(26deg);
+    opacity:0;
+  }
+  .gift-box.opened .gift-body{
+    transform:scale(0.92);
+    opacity:0;
+  }
+</style>
+</head>
+<body class="locked">
+
+<!-- ================================================================
+     🎵 GANTI AUDIO DI SINI
+     Ganti "GANTI-FILE-AUDIO-KAMU.mp3" di bawah dengan nama file lagu/audio kamu.
+     Taruh file audionya di folder yang SAMA dengan file HTML ini.
+     Format yang didukung: mp3, wav, ogg.
+     Contoh: src="lagu-wisuda.mp3"  atau  src="audio/backsound.mp3"
+     ================================================================ -->
+<audio id="bg-audio" src="lagu-tulus.mp3" loop preload="auto"></audio>
+
+<div id="intro-gate">
+  <div class="intro-inner">
+    <div class="eyebrow">Wisuda S1 · Rina</div>
+    <div class="gift-box" id="gift-box" role="button" tabindex="0" aria-label="Buka kado untuk masuk ke halaman wisuda Rina">
+      <div class="gift-bow"><span></span><span></span><i></i></div>
+      <div class="gift-lid"></div>
+      <div class="gift-body"></div>
+    </div>
+    <p class="intro-hint">Klik kadonya untuk masuk</p>
+  </div>
+</div>
+
+<div class="progress-line" id="progress"></div>
+<div id="dust"></div>
+<div id="confetti-layer"></div>
+<div id="toast"></div>
+
+<!-- Tombol ini cuma ICON (bukan gambar). Kalau mau ganti jadi gambar/logo sendiri,
+     ganti baris <i class="fa-solid fa-volume-xmark" id="sound-icon"></i> di bawah
+     jadi:  <img src="nama-gambar-kamu.png" id="sound-icon" style="width:18px;"> -->
+<button id="sound-toggle" aria-pressed="false" aria-label="Aktifkan efek suara">
+  <i class="fa-solid fa-volume-xmark" id="sound-icon"></i>
+</button>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="eyebrow">Wisuda Sarjana · 2024</div>
+  <h1>Rina<span>Resmi Jadi Sarjana.</span></h1>
+  <p>Dari yang nangis sendirian jam 2 pagi karena revisi bab 3, sampai hari ini berdiri di depan penguji dan bilang: "saya sudah selesai." Empat tahun ini bukan cuma soal gelar — ini soal seseorang yang nggak pernah benar-benar sendirian, walau rasanya begitu.</p>
+  <div class="date"><i class="fa-regular fa-calendar"></i>&nbsp; 24 Juli 2028 · Aula Wisuda</div>
+  <div class="scroll-cue"><span>SCROLL UNTUK LIHAT CERITANYA</span><i class="fa-solid fa-chevron-down"></i></div>
+</header>
+
+<!-- TIMELINE -->
+<section id="timeline">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">01 · Perjalanan</div>
+      <h2>Empat tahun, dirangkum jadi empat titik balik.</h2>
+      <p>Setiap fase punya versi Rina yang berbeda. Ini bukan linimasa akademik — ini linimasa berubahnya seseorang.</p>
+    </div>
+
+    <div class="timeline">
+      <div class="t-item reveal">
+        <span class="t-dot"></span>
+        <span class="t-year">2021</span>
+        <div class="t-card">
+          <h3>Maba dengan mata berbinar</h3>
+          <p>Masih bawa map plastik dan takut salah gedung. Belum tahu bahwa grup WhatsApp angkatan yang isinya 90% typo itu, empat tahun kemudian, bakal jadi rumah kedua.</p>
+          <span class="t-tag">TITIK AWAL</span>
+        </div>
+      </div>
+      <div class="t-item reveal">
+        <span class="t-dot"></span>
+        <span class="t-year">2022</span>
+        <div class="t-card">
+          <h3>Circle yang mulai kerasa kayak keluarga</h3>
+          <p>Rapat sampai jam 11 malam, revisi proposal enam kali, tapi juga ketawa paling keras di kosan temen sambil makan mie instan berdua — sampai lupa besok ada kelas jam 7.</p>
+          <span class="t-tag">FASE TUMBUH</span>
+        </div>
+      </div>
+      <div class="t-item reveal">
+        <span class="t-dot"></span>
+        <span class="t-year">2023</span>
+        <div class="t-card">
+          <h3>Titik paling gelap sebelum terang</h3>
+          <p>Bab 2 direvisi sembilan kali. Chat dosen pembimbing dibaca berkali-kali sebelum berani dibalas. Ada malam-malam pengen nyerah — tapi selalu ada yang nyemangatin lewat DM jam 2 pagi, bilang "dikit lagi."</p>
+          <span class="t-tag">TITIK UJI</span>
+        </div>
+      </div>
+      <div class="t-item reveal">
+        <span class="t-dot"></span>
+        <span class="t-year">2024</span>
+        <div class="t-card">
+          <h3>Nama dipanggil, semua orang berdiri</h3>
+          <p>Toga dipindah sisinya, dan tiba-tiba semua rasa capek empat tahun itu kelihatan bentuknya: senyum yang nggak bisa ditahan, dan orang-orang di baris depan yang matanya udah berkaca-kaca duluan.</p>
+          <span class="t-tag">TITIK TERANG</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">02 · Momen</div>
+      <h2>Klik fotonya. Setiap foto nyimpen cerita di baliknya.</h2>
+      <p>Selamat wisuda, Rina! Kartu di bawah ini telah diganti dengan foto asli perjalanan kuliahmu—mulai dari ospek, dedikasimu di organisasi, hingga hari kelulusanmu. Biar tiap bingkainya menghidupkan kembali satu memori spesifik perjuanganmu, bukan cuma jadi pajangan mati. Kamu hebat banget!</p>
+       </div>
+
+    <div class="gallery-grid" id="gallery-grid"></div>
+  </div>
+</section>
+
+<!-- GUESTBOOK -->
+<section id="ucapan">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">03 · Ruang Kenangan</div>
+      <h2>Ucapan dari orang-orang yang ikut jalan bareng Rina.</h2>
+      <p>Ditulis langsung oleh temen-temen, bukan template. Tambahkan punyamu di bawah.</p>
+    </div>
+
+    <div class="board reveal" id="board"></div>
+
+    <div class="board-controls">
+      <button type="button" class="btn ghost" id="prev-btn" aria-label="Ucapan sebelumnya"><i class="fa-solid fa-arrow-left"></i> Sebelumnya</button>
+      <span class="page-indicator" id="page-indicator">1 / 1</span>
+      <button type="button" class="btn ghost" id="next-btn" aria-label="Ucapan selanjutnya">Selanjutnya <i class="fa-solid fa-arrow-right"></i></button>
+    </div>
+
+    <form class="note-form reveal" id="note-form">
+      <div class="row">
+        <input type="text" id="note-name" placeholder="Nama kamu" required maxlength="40">
+        <input type="text" id="note-role" placeholder="Hubungan (mis. Temen kosan)" maxlength="40">
+      </div>
+      <textarea id="note-msg" placeholder="Tulis ucapan buat Rina di sini..." required maxlength="220"></textarea>
+      <button type="submit" class="btn"><i class="fa-solid fa-pen"></i> Kirim Ucapan</button>
+    </form>
+  </div>
+</section>
+
+<!-- CLIMAX -->
+<section id="climax" class="climax">
+  <div class="wrap">
+    <div class="eyebrow" style="justify-content:center;">04 · Detik-Detik Wisuda</div>
+    <div class="cap-stage">
+        
+      <div class="cap">
+        <div class="tassel"></div>      
+        <div class="cap-top"></div>
+        <div class="cap-base"></div> 
+      </div>
+    </div>
+    <h2>Toganya sudah dipindah sisi.</h2>
+    <p class="quote">Empat tahun yang kadang terasa lambat, kadang terasa kayak kilat — dan hari ini, semuanya kelihatan pantas diperjuangkan. Selamat, Rina. Yang paling tahu seberapa berat jalannya cuma kamu — dan kamu tetap sampai di sini.</p>
+
+    <div class="share-row">
+      <button class="btn" id="celebrate-btn"><i class="fa-solid fa-graduation-cap"></i> Rayakan Lagi</button>
+      <button class="btn ghost" id="share-btn"><i class="fa-brands fa-whatsapp"></i> Ucapin Selamat via WhatsApp</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>Dibuat dengan <span class="heart">♥</span> sebagai kado kelulusan untuk Rina — Wisuda S1, 2024</p>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* ---------- scroll progress ---------- */
+  const progress = document.getElementById("progress");
+  function updateProgress(){
+    const h = document.documentElement;
+    const scrolled = (h.scrollTop) / (h.scrollHeight - h.clientHeight) * 100;
+    progress.style.width = scrolled + "%";
+  }
+  document.addEventListener("scroll", updateProgress, {passive:true});
+  updateProgress();
+
+  /* ---------- ambient gold dust ---------- */
+  if(!reduceMotion){
+    const dustLayer = document.getElementById("dust");
+    const count = window.innerWidth < 640 ? 14 : 26;
+    for(let i=0;i<count;i++){
+      const m = document.createElement("div");
+      m.className = "mote";
+      m.style.left = Math.random()*100 + "vw";
+      m.style.animationDuration = (14 + Math.random()*14) + "s";
+      m.style.animationDelay = (Math.random()*14) + "s";
+      m.style.opacity = (0.15 + Math.random()*0.3).toFixed(2);
+      dustLayer.appendChild(m);
+    }
+  }
+
+  /* ---------- scroll reveal ---------- */
+  const revealEls = document.querySelectorAll(".reveal");
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        e.target.classList.add("is-visible");
+        io.unobserve(e.target);
+      }
+    });
+  }, {threshold:0.15});
+  revealEls.forEach(el=>io.observe(el));
+
+  /* ---------- gallery data + flip ----------
+     🖼️ GANTI FOTO DI SINI
+     Tiap item di bawah ini satu kartu galeri.
+     - Mau tetep pakai icon? biarkan aja apa adanya.
+     - Mau ganti icon jadi FOTO ASLI? tambahin baris:  img: "nama-foto-kamu.jpg"
+       (taruh file fotonya di folder yang sama dengan HTML ini)
+     Contoh:
+       {img:"foto-ospek.jpg", label:"Ospek 2021", back:"cerita di baliknya..."}
+  ------------------------------------------------------------------ */
+  const galleryData = [
+    {icon:"fa-solid fa-people-group", label:"Ospek 2021", klarifikasi:"isiny sebenarnya gambar bukan icon tapi takut kenak hak cipta jadi diganti icon",back:"Hari pertama, masih canggung — nggak nyangka bakal jadi circle sampai wisuda."},
+    {icon:"fa-solid fa-mug-hot", label:"Begadang Skripsi", klarifikasi:"isiny sebenarnya gambar bukan icon tapi takut kenak hak cipta jadi diganti icon",back:"Jam 2 pagi, kopi ketiga, revisi kelima. Tapi selesai juga."},
+    {icon:"fa-solid fa-users-rectangle", label:"Rapat Panitia",klarifikasi:"isiny sebenarnya gambar bukan icon tapi takut kenak hak cipta jadi diganti icon",back:"Ruang rapat yang jadi saksi drama proposal ditolak 3 kali."},
+    {icon:"fa-solid fa-file-signature", label:"Sidang Akhir", klarifikasi:"isiny sebenarnya gambar bukan icon tapi takut kenak hak cipta jadi diganti icon",back:"10 menit paling menegangkan dari 4 tahun kuliah."},
+    {icon:"fa-solid fa-champagne-glasses", label:"Setelah Sidang",klarifikasi:"isiny sebenarnya gambar bukan icon tapi takut kenak hak cipta jadi diganti icon", back:"Lega yang nggak bisa dijelaskan pakai kata-kata."},
+    {icon:"fa-solid fa-graduation-cap", label:"Hari-H Wisuda",klarifikasi:"isiny sebenarnya gambar bukan icon tapi takut kenak hak cipta jadi diganti icon", back:"Nama dipanggil, toga dipindah — empat tahun kelihatan bentuknya."}
+  ];
+  const grid = document.getElementById("gallery-grid");
+  galleryData.forEach((item, idx)=>{
+    const card = document.createElement("div");
+    card.className = "flip-card";
+    card.setAttribute("role","button");
+    card.setAttribute("tabindex","0");
+    card.setAttribute("aria-pressed","false");
+    card.setAttribute("aria-label","Foto: " + item.label + ". Tekan untuk melihat cerita di baliknya.");
+    const frontVisual = item.img
+      ? `<img src="${item.img}" alt="${item.label}" style="width:100%; height:100%; object-fit:cover; position:absolute; inset:0;">`
+      : `<i class="${item.icon}"></i>
+      <span>${item.label}</span>
+      <span class="klarifikasi">${item.klarifikasi}</span>`;
+    card.innerHTML = `
+      <div class="flip-card-inner">
+        <div class="flip-face flip-front">
+          ${frontVisual}
+          <span class="hint">KLIK UNTUK CERITA</span>
+        </div>
+        <div class="flip-face flip-back">${item.back}</div>
+      </div>`;
+    function toggle(){
+      const flipped = card.classList.toggle("flipped");
+      card.setAttribute("aria-pressed", flipped ? "true" : "false");
+    }
+    card.addEventListener("click", toggle);
+    card.addEventListener("keydown", (e)=>{
+      if(e.key === "Enter" || e.key === " "){ e.preventDefault(); toggle(); }
+    });
+    grid.appendChild(card);
+  });
+
+    /* ---------- guestbook with Supabase ---------- */
+  /* ==========================================================================
+   1. DEKLARASI ELEMEN UI & VARIABEL GLOBAL (Taruh paling atas biar aman)
+   ========================================================================== */
+const toastEl = document.getElementById("toast");
+let toastTimer;
+
+const PAGE_SIZE = 3;
+const board = document.getElementById("board");
+const prevBtn = document.getElementById("prev-btn");
+const nextBtn = document.getElementById("next-btn");
+const pageIndicator = document.getElementById("page-indicator");
+
+let notes = [];
+let page = 0;
+
+/* ==========================================================================
+   2. FUNGSI TOAST & RENDER UTILITY
+   ========================================================================== */
+function showToast(text) {
+  if (!toastEl) return;
+  toastEl.textContent = text;
+  toastEl.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toastEl.classList.remove("show"), 2400);
+}
+
+function totalPages() {
+  return Math.max(1, Math.ceil(notes.length / PAGE_SIZE));
+}
+
+function renderNote(n) {
+  const el = document.createElement("div");
+  el.className = "note";
+  el.style.setProperty("--r", (Math.random() * 4 - 2).toFixed(2) + "deg");
+  
+  // Pengaman XSS (Anti Hack HTML injection)
+  const safeMsg = (n.msg || "").replace(/</g, "&lt;");
+  const safeName = (n.name || "").replace(/</g, "&lt;");
+  const safeRole = (n.role || "").replace(/</g, "&lt;");
+  
+  el.innerHTML = `“${safeMsg}”<span class="who">${safeName}${safeRole ? " · " + safeRole : ""}</span>`;
+  return el;
+}
+
+function renderPage() {
+  if (!board || !pageIndicator || !prevBtn || !nextBtn) return;
+  board.innerHTML = "";
+  const start = page * PAGE_SIZE;
+  
+  notes.slice(start, start + PAGE_SIZE).forEach(n => board.appendChild(renderNote(n)));
+  
+  pageIndicator.textContent = (page + 1) + " / " + totalPages();
+  prevBtn.disabled = page === 0;
+  nextBtn.disabled = page >= totalPages() - 1;
+}
+
+/* ==========================================================================
+   3. KONFIGURASI & KONEKSI SUPABASE
+   ========================================================================== */
+const SUPABASE_URL = 'https://hlqvmsiygmvpppqxqvpw.supabase.co';      
+const SUPABASE_ANON_KEY = 'sb_publishable_pFicc_D86c6vwI4XENKRog_tpus1MU5'; 
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+// Fungsi Ambil Data dari Supabase
+async function fetchNotes() {
+  showToast("Memuat ucapan...");
+  const { data, error } = await supabaseClient
+    .from('ucapan')
+    .select('*')
+    .order('created_at', { ascending: false });
+  
+  if (error) {
+    console.error('Supabase error:', error.message);
+    showToast("Gagal memuat ucapan");
+    return;
+  }
+  notes = data || [];
+  page = 0;
+  renderPage();
+}
+
+/* ==========================================================================
+   4. EVENT LISTENERS (KLIK & SUBMIT FORM)
+   ========================================================================== */
+
+// Handle Paginasi Berjalan Sempurna
+prevBtn.addEventListener("click", () => {
+  if (page > 0) { page--; renderPage(); }
+});
+
+nextBtn.addEventListener("click", () => {
+  if (page < totalPages() - 1) { page++; renderPage(); }
+});
+
+// Handle Kirim Ucapan ke Supabase
+document.getElementById("note-form").addEventListener("submit", async function(e) {
+  e.preventDefault();
+  const name = document.getElementById("note-name").value.trim();
+  const role = document.getElementById("note-role").value.trim();
+  const msg = document.getElementById("note-msg").value.trim();
+  
+  if (!name || !msg) return;
+
+  const submitBtn = this.querySelector('button[type="submit"]');
+  const originalHTML = submitBtn.innerHTML;
+  
+  // Loading state tombol
+  submitBtn.disabled = true;
+  submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Mengirim...';
+
+  // Inject data ke database Supabase
+  const { error } = await supabaseClient
+    .from('ucapan')
+    .insert([{ name, role, msg }]);
+
+  // Kembalikan state tombol
+  submitBtn.disabled = false;
+  submitBtn.innerHTML = originalHTML;
+
+  if (error) {
+    console.error('Insert error:', error.message);
+    showToast("Gagal mengirim, coba lagi");
+    return;
+  }
+
+  this.reset();
+  showToast("Ucapan terkirim ✦");
+  // Data otomatis ter-refresh melalui setup realtime di bawah
+});
+
+/* ==========================================================================
+   5. REALTIME FITUR (Sinkronisasi Otomatis) & INIT LOAD
+   ========================================================================== */
+supabaseClient
+  .channel('ucapan-realtime')
+  .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'ucapan' }, (payload) => {
+    // Masukkan data baru ke paling atas array tanpa reload browser
+    notes.unshift(payload.new);
+    page = 0;
+    renderPage();
+    showToast("Ucapan baru masuk ✦");
+  })
+  .subscribe();
+
+// Eksekusi load data pertama kali setelah semua komponen siap
+fetchNotes();
+
+
+  /* ---------- confetti ---------- */
+  const confettiLayer = document.getElementById("confetti-layer");
+  const confettiColors = ["#C9A227","#E4C767","#D98B90","#F3ECD9"];
+  function burstConfetti(n){
+    if(reduceMotion) return;
+    for(let i=0;i<n;i++){
+      const p = document.createElement("div");
+      p.className = "confetti-piece";
+      p.style.left = Math.random()*100 + "vw";
+      p.style.background = confettiColors[Math.floor(Math.random()*confettiColors.length)];
+      p.style.animationDuration = (2.2 + Math.random()*1.8) + "s";
+      p.style.transform = `rotate(${Math.random()*360}deg)`;
+      confettiLayer.appendChild(p);
+      p.addEventListener("animationend", ()=> p.remove());
+    }
+  }
+
+  /* trigger once when climax section enters view */
+  const climaxSection = document.getElementById("climax");
+  const climaxIO = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        burstConfetti(70);
+        if(soundOn) playChime();
+        climaxIO.unobserve(e.target);
+      }
+    });
+  }, {threshold:0.5});
+  climaxIO.observe(climaxSection);
+
+  /* ---------- suara latar (audio file kamu) + gentle chime (Web Audio) ---------- */
+  const bgAudio = document.getElementById("bg-audio");
+  bgAudio.volume = 0.5;
+  let audioCtx = null;
+  let soundOn = false;
+  const soundBtn = document.getElementById("sound-toggle");
+  const soundIcon = document.getElementById("sound-icon");
+  soundBtn.addEventListener("click", ()=>{
+    soundOn = !soundOn;
+    soundBtn.setAttribute("aria-pressed", soundOn ? "true" : "false");
+    soundIcon.className = soundOn ? "fa-solid fa-volume-high" : "fa-solid fa-volume-xmark";
+    if(soundOn){
+      playChime();
+      bgAudio.play().catch(()=>{ /* file belum diganti / diblokir browser, aman diabaikan */ });
+    }else{
+      bgAudio.pause();
+    }
+  });
+  function playChime(){
+    try{
+      if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      const notes = [523.25, 659.25, 783.99];
+      notes.forEach((freq, i)=>{
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = "sine";
+        osc.frequency.value = freq;
+        const start = audioCtx.currentTime + i*0.12;
+        gain.gain.setValueAtTime(0, start);
+        gain.gain.linearRampToValueAtTime(0.08, start + 0.05);
+        gain.gain.exponentialRampToValueAtTime(0.0001, start + 1.1);
+        osc.connect(gain).connect(audioCtx.destination);
+        osc.start(start);
+        osc.stop(start + 1.2);
+      });
+    }catch(e){ /* audio unsupported, fail silently */ }
+  }
+
+  /* ---------- intro gate: klik kado untuk masuk ---------- */
+  const introGate = document.getElementById("intro-gate");
+  const giftBox = document.getElementById("gift-box");
+  function openGift(){
+    if(giftBox.classList.contains("opened")) return;
+    giftBox.classList.add("opened");
+    try{
+      if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      if(audioCtx.state === "suspended") audioCtx.resume();
+    }catch(e){ /* audio unsupported, fail silently */ }
+    soundOn = true;
+    soundBtn.setAttribute("aria-pressed","true");
+    soundIcon.className = "fa-solid fa-volume-high";
+    playChime();
+    bgAudio.play().catch(()=>{ /* file belum diganti / diblokir browser, aman diabaikan */ });
+    burstConfetti(60);
+    setTimeout(()=>{
+      introGate.classList.add("hide");
+      document.body.classList.remove("locked");
+    }, 550);
+    setTimeout(()=>{ introGate.remove(); }, 1300);
+  }
+  giftBox.addEventListener("click", openGift);
+  giftBox.addEventListener("keydown", (e)=>{
+    if(e.key === "Enter" || e.key === " "){ e.preventDefault(); openGift(); }
+  });
+
+  /* ---------- celebrate again ---------- */
+  document.getElementById("celebrate-btn").addEventListener("click", ()=>{
+    burstConfetti(90);
+    if(soundOn) playChime();
+    showToast("Selamat, Rina! 🎓");
+  });
+
+const whatsappNumber = '6282170894285';
+/* ---------- ucapan via WhatsApp ---------- */
+document.getElementById("share-btn").addEventListener("click", () => {
+  // Menggunakan backtick (`) dan \n agar teks di WhatsApp otomatis ganti baris (berjarak)
+  const message = `*Selamat wisuda 🎓, Rina!* 
+
+Nangis banget pas liat kamu pakai toga hari ini. Aku tahu betul gimana jatuh bangunnya kamu, malam-malam tanpa tidur, dan semua keraguan yang sempat lewat. 🥺✨
+
+Tapi kamu berhasil ngelewatin itu semua dengan hebat. Aku bener-bener bangga bisa ada di salah satu babak hidupmu. ❤️
+
+Sebagai selebrasi kecil, aku buatin halaman ini khusus buat kamu, coba buka: `;
+
+  // Menggabungkan pesan dengan URL halaman saat ini secara otomatis
+  const fullMessage = message + window.location.href;
+
+  const waUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(fullMessage)}`;
+  window.open(waUrl, "_blank", "noopener");
+  showToast("Membuka WhatsApp ✦");
+});
+
+})();
+</script>
+</body>
+</html>
