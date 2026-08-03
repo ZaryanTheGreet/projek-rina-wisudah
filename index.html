@@ -1147,6 +1147,26 @@ fetchNotes();
       bgAudio.pause();
     }
   });
+
+  /* ---------- auto-pause saat user pindah tab / minimize ---------- */
+  (function(){
+    let wasPlayingBeforeHidden = false;
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        // User meninggalkan tab (minimize / pindah app / pindah tab)
+        wasPlayingBeforeHidden = !bgAudio.paused;
+        if (!bgAudio.paused) {
+          bgAudio.pause();
+        }
+      } else {
+        // User balik ke tab ini
+        if (wasPlayingBeforeHidden && soundOn) {
+          bgAudio.play().catch(() => {});
+        }
+      }
+    });
+  })();
+
   function playChime(){
     try{
       if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
